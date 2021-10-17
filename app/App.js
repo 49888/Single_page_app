@@ -1,36 +1,27 @@
 import { Header } from "./components/Header.js";
 import { Loader } from "./components/Loader.js";
-import { PostCard } from "./components/postCard.js";
-import { Posts } from "./components/Posts.js";
 
-import API from "./helpers/api.js";
-import { peticion } from "./helpers/peticion.js";
+import { Main } from "./components/Main.js";
+import { Router } from "./components/Router.js";
+
+
 
 export function App(){
 
     const $root = document.getElementById("root");
 
+    $root.innerHTML = "";
+
     $root.appendChild(Header());
 
 
-    $root.appendChild(Posts());
-
-    peticion(API.POSTS_EMBED, function(json){
-
-        console.log(json);
-
-        const AUX = document.createDocumentFragment();
-
-        json.forEach(post => {
-            
-            AUX.appendChild(PostCard(post));
-        });
-
-        document.getElementById("Loader").classList.toggle("hide", true);
-        document.getElementById("Posts").appendChild(AUX);
-    });
+    $root.appendChild(Main());
 
     $root.appendChild(Loader());
+
+
+    Router(location.hash);
+
 
     console.log("Incio");
 }

@@ -3,7 +3,7 @@ const site_2 = "https://fueradefoco.com.mx";
 
 
 
-const WEB = site_2;
+const WEB = site_1;
 
 
 //Wordpress Api rest

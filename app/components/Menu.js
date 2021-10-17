@@ -7,6 +7,7 @@ export function Menu(){
     menu.innerHTML = `
         <a href="#">Home</a>
         <a href="#/search">Buscar</a>
+        <a href="#/contacto">Contacto</a>
         <a href="https://trovo.live/Domy014" target="_blank" rel="noopener">Domy014</a>
     `;
 

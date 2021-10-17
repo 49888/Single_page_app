@@ -1,6 +1,6 @@
 export function PostCard(post){
 
-    const {title, date, slug, _embedded} = post;
+    const {id, title, date, slug, _embedded} = post;
 
     let img = "";
 
@@ -8,16 +8,30 @@ export function PostCard(post){
     else img = "http://placeimg.com/200/200/arch";
     
 
+
+    document.addEventListener("click", function(e){
+
+        e.stopImmediatePropagation();     
+
+        if(!e.target.matches(".Post a")) return;
+
+        localStorage.setItem("wp:id", e.target.getAttribute("data-id")); 
+    });
+
+
+
     const $post = document.createElement("article");
 
     $post.classList.add("Post");
+
+    
 
     $post.innerHTML = `
         <img src="${img}" alt="">
         <h4>${title.rendered}</h4>
         <p>
             <time datetime="${date}">${(new Date(date)).toLocaleString()}</time>
-            <a href="#/${slug}" target="_blank" rel="noopener noreferrer">Ver publicacion</a>
+            <a href="#/${slug}" data-id="${id}">Ver publicacion</a>
         </p>
     `;
 

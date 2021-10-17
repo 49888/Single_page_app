@@ -1,6 +1,6 @@
-export function peticion(url, result){
+export async function peticion(url, result){
 
-    fetch(url)
+    await fetch(url)
     .then(function(res){
 
         return res.json();

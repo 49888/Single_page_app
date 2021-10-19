@@ -2,18 +2,37 @@ import { Menu } from "./Menu.js";
 import { Search } from "./Search.js";
 import { Title } from "./Title.js";
 
+let corte = true;
 
 export function Header(){
 
-    const header = document.createElement("header");
+    //Estilos
+        if(corte){
+            const styles = document.getElementById("Styles");
 
-    header.classList.add("Header");
+            styles.insertAdjacentText("beforeend", `
+            
+                /*----> Header*/
+                .Header {
+                    position: sticky;
+                    top: 0;
+                    z-index: 100;
+                }
+            `);
 
-    header.appendChild(Title());
+            corte = false;
+        }
 
-    header.appendChild(Menu());
+    //HTML    
+        const header = document.createElement("header");
 
-    header.appendChild(Search());
+        header.classList.add("Header");
+
+        header.appendChild(Title());
+
+        header.appendChild(Menu());
+
+        header.appendChild(Search());
 
     return header;
 }

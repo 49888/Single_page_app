@@ -1,39 +1,65 @@
+let corte = true;
+
 export function PostCard(post){
 
     const {id, title, date, slug, _embedded} = post;
 
-    let img = "";
+    //Estilos
+        if(corte){
+            const styles = document.getElementById("Styles");
 
-    if(_embedded["wp:featuredmedia"]) img = _embedded["wp:featuredmedia"][0].source_url;
-    else img = "http://placeimg.com/200/200/arch";
-    
+            styles.insertAdjacentText("beforeend", `
+            
+                /*----> Post-card*/
+                .Post-card {
+                    width: 80%;
+                    padding: 5px 10px;   margin: 10px;
+                    background-color: lightskyblue;
+                    border-radius: 10px;
+                    display: flex;    flex-direction: column;
+                    justify-content: center;    align-items: center;
+                }
+                .Post-card > * {
+                    margin: 5px 0;
+                }
+                .Post-card img {
+                    width: 50%;   height: 50%;
+                    object-fit: scale-down;
+                }
+                .Post-card p {
+                    width: 100%;
+                    display: flex;  justify-content: space-between;
+                }
+            `);
 
+            corte = false;
+        }
 
-    document.addEventListener("click", function(e){
+    //HTML
+        let img = "";
 
-        e.stopImmediatePropagation();     
+        if(_embedded["wp:featuredmedia"]) img = _embedded["wp:featuredmedia"][0].source_url;
+        else img = "http://placeimg.com/200/200/arch";
+        
 
-        if(!e.target.matches(".Post a")) return;
+        const $post = document.createElement("article");
 
-        localStorage.setItem("wp:id", e.target.getAttribute("data-id")); 
-    });
+        $post.classList.add("Post-card");
 
+        $post.innerHTML = `
+            <img src="${img}" alt="">
+            <h4>${title.rendered}</h4>
+            <p>
+                <time datetime="${date}">${(new Date(date)).toLocaleString()}</time>
+                <a href="#/${slug}" data-id="${id}">Ver publicacion</a>
+            </p>
+        `;
 
+    //JS
+        $post.querySelector("p a").addEventListener("click", function(e){
 
-    const $post = document.createElement("article");
-
-    $post.classList.add("Post");
-
-    
-
-    $post.innerHTML = `
-        <img src="${img}" alt="">
-        <h4>${title.rendered}</h4>
-        <p>
-            <time datetime="${date}">${(new Date(date)).toLocaleString()}</time>
-            <a href="#/${slug}" data-id="${id}">Ver publicacion</a>
-        </p>
-    `;
+            localStorage.setItem("wp:id", e.target.getAttribute("data-id"));
+        });
 
     return $post
 }

@@ -3,6 +3,7 @@ import { PostCard } from "./postCard.js";
 
 import {peticion} from "../helpers/peticion.js";
 import { postView } from "./postView.js";
+import { searchCard } from "./searchCard.js";
 
 export async function Router(hash){
 
@@ -16,7 +17,10 @@ export async function Router(hash){
     console.log(hash);
     switch(true){
 
+        //Pagina Principal Home
         case !hash || hash == "#/": console.log("Home");
+
+            $main.classList.toggle("Grid-main");
 
             await peticion(API.POSTS_EMBED, function(json){
 
@@ -31,8 +35,27 @@ export async function Router(hash){
 
             break;
 
-        case hash.includes("#/search"):
-            console.log("Busqueda");
+        //Pagina de Busqueda    
+        case hash.includes("#/search"): console.log("Busqueda");
+
+            $main.classList.toggle("Flex-main");
+
+            let search = localStorage.getItem("search");
+            if(search == null || search == "") return;
+
+
+            await peticion(`${API.SEARCH}${search}`, function(json){
+
+                console.log(json);
+
+                if(json.length == 0){
+
+                }
+                else {
+                    json.forEach(post => $main.appendChild(searchCard(post)));
+                }
+            });
+
             break;
             
         case hash == "#/contacto":
